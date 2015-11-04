@@ -1,0 +1,26 @@
+strongpm:
+  build: ./strongpm
+  ports:
+    - "8701:8701"
+    - "3001:3001"
+    - "3002:3002"
+    - "3003:3003"
+  links:
+    - mongodb
+    - redis
+  volumes:
+    - /opt/docker/upstart:/var/log/upstart
+    - /opt/docker/strong-pm:/home/strong-pm
+    - /home/player/callplannerApp/storage:./data/storage
+  environment:
+    - NODE_ENV=production
+mongodb:
+  build: ./mongodb
+  volumes:
+    - /data/db/mongodb:/data/db
+    - /data/logs:/var/log/mongodb
+redis:
+  build: ./redis
+  volumes:
+    - /data/db/redis/:/data/db/redis
+    - /data/logs:/var/log/syslog
